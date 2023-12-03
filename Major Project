@@ -1,0 +1,5 @@
+```{r}
+test_spotify <- spotify_songs %>%
+  separate(track_album_release_date, sep = "-", into = c("year", "month", "day")) %>%
+  transform(year = as.numeric(year))
+```
