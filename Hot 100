@@ -1,0 +1,25 @@
+
+```{r}
+top_tracks <- charts |>
+  filter(rank == 1)
+```
+
+```{r}
+charts_dates <- top_tracks |>
+  separate(date, sep = "-", into = c("year", "month", "day"))
+```
+
+```{r}
+songs_50 <- charts_dates |>
+  filter(year >= 1950 & year <1960)
+```
+
+```{r}
+songs_60 <- charts_dates |>
+  filter(year >= 1960 & year <1970)
+```
+
+```{r}
+songs_70 <- charts_dates |>
+  filter(year >= 1970 & year <1980)
+```
