@@ -1,0 +1,23 @@
+songs_50 <- test_spotify |>
+  filter(year >= 1950 & year < 1960)
+
+songs_60 <- test_spotify |>
+  filter(year >= 1960 & year < 1970)
+
+songs_70 <- test_spotify |>
+  filter(year >= 1970 & year < 1980)
+
+songs_80 <- test_spotify |>
+  filter(year >= 1980 & year < 1990)
+
+songs_90 <- test_spotify |>
+  filter(year >= 1990 & year < 2000)
+
+songs_00 <- test_spotify |>
+  filter(year >= 2000 & year < 2010)
+
+songs_10 <- test_spotify |>
+  filter(year >= 2010 & year < 2020)
+
+songs_20 <- test_spotify |>
+  filter(year == 2020)
