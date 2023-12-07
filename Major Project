@@ -3,3 +3,11 @@ test_spotify <- spotify_songs %>%
   separate(track_album_release_date, sep = "-", into = c("year", "month", "day")) %>%
   transform(year = as.numeric(year))
 ```
+boxplot Popularity vs Genre
+```{r}
+ggplot(spotify_songs, aes(x = playlist_genre, y = track_popularity, fill = "Pink")) +
+  geom_boxplot() +
+  scale_fill_manual(values = "hotpink", guide = FALSE) +
+  labs(x = "Playlist Genre", y = "Track Popularity", title = "Track Popularity vs Genre") +
+  theme_minimal()
+```
