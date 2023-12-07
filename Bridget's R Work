@@ -1,0 +1,203 @@
+```{r}
+test_spotify <- spotify_songs |>
+  separate(track_album_release_date, sep = "-", into = c("year", "month", "day"))
+```
+
+Separating data into various decades
+```{r}
+songs_50 <- test_spotify |>
+  filter(year >= 1950 & year < 1960)
+
+songs_60 <- test_spotify |>
+  filter(year >= 1960 & year < 1970)
+
+songs_70 <- test_spotify |>
+  filter(year >= 1970 & year < 1980)
+
+songs_80 <- test_spotify |>
+  filter(year >= 1980 & year < 1990)
+
+songs_90 <- test_spotify |>
+  filter(year >= 1990 & year < 2000)
+
+songs_00 <- test_spotify |>
+  filter(year >= 2000 & year < 2010)
+
+songs_10 <- test_spotify |>
+  filter(year >= 2010 & year < 2020)
+
+songs_20 <- test_spotify |>
+  filter(year == 2020)
+```
+
+Finding top song of each decade within the Spotify dataset
+```{r}
+songs_50 |>
+  arrange(desc(track_popularity)) # Jailhouse Rock - Elvis Presley GENRE: ROCK
+
+songs_60 |>
+  arrange(desc(track_popularity)) # Fortunate Son - Creedence Clearwater Revival GENRE: POP
+
+songs_70 |>
+  arrange(desc(track_popularity)) # Bohemian Rhapsody - Queen GENRE: ROCK 
+
+songs_80 |>
+  arrange(desc(track_popularity)) # Back In Black - AC/DC GENRE: POP
+
+songs_90 |>
+  arrange(desc(track_popularity)) # All I Want for Christmas Is You - Mariah Carey GENRE: R&B
+
+songs_00 |>
+  arrange(desc(track_popularity)) # The Scientist - Coldplay GENRE: POP
+
+songs_10 |>
+  arrange(desc(track_popularity)) # Dance Monkey - Tones and I GENRE: POP
+
+songs_20 |>
+  arrange(desc(track_popularity)) # Yummy - Justin Bieber GENRE: POP
+```
+
+Comparing longevity of the top songs from each decades (spotify_songs) using the Billboard Top 100 Magazine dataset
+```{r}
+charts |>
+  filter(song == "Jailhouse Rock") # NOT in dataset
+
+charts |>
+  filter(song == "Fortunate Son") |>
+  arrange(desc(`weeks-on-board`)) |> # max 4 weeks
+  arrange((`peak-rank`)) # 14  
+
+charts |> 
+  filter(song == "Bohemian Rhapsody") |>
+  arrange(desc(`weeks-on-board`)) |> # max 44 weeks
+  arrange((`peak-rank`)) # 2  
+   
+charts |> 
+  filter(song == "Back In Black") |>
+  arrange(desc(`weeks-on-board`)) |> # max 15 weeks
+  arrange((`peak-rank`)) # 37 
+   
+charts |> 
+  filter(song == "All I Want For Christmas Is You") |>
+  arrange(desc(`weeks-on-board`)) |> # max 44 weeks 
+   arrange((`peak-rank`)) # 1
+
+# This one is not a fair comparison because this ranking is for the cover done by Glee, NOT actual Coldplay itself 
+charts |> 
+  filter(song == "The Scientist") |>
+  arrange(desc(`weeks-on-board`)) |> # Glee cast - 1 week
+   arrange((`peak-rank`)) # 91 
+   
+charts |> 
+  filter(song == "Dance Monkey") |>
+  arrange(desc(`weeks-on-board`)) |> # max 36 weeks
+   arrange((`peak-rank`)) # 4
+
+charts |> 
+  filter(song == "Yummy") |>
+  arrange(desc(`weeks-on-board`)) |> # max 15 weeks 
+  arrange((`peak-rank`)) #2
+```
+
+
+Track Popularity vs. Year graph
+```{r}
+ggplot(test_spotify, aes(year, track_popularity, color = playlist_genre)) +
+    geom_point(alpha = 0.1, position=position_jitter(height=.5, width=.5)) + 
+    scale_x_discrete(breaks = seq(1950, 2020, by = 10)) +
+    guides(color = guide_legend(override.aes = list(alpha = 1) ) ) + 
+    labs(
+      title = "Track Popularity vs. Year", 
+      subtitle = "Filtered by Genre", 
+      x = "Year", 
+      y = "Track Popularity",
+      color = "Genre"
+    )
+```
+
+Most popular songs from each of the 2010s decade 
+```{r}
+songs_10 |>
+  filter(year == 2010) |>
+  arrange(desc(track_popularity)) # Hey, Soul Sister - Train, Love The Way You Lie - Eminem 
+
+songs_10 |>
+  filter(year == 2011) |>
+  arrange(desc(track_popularity)) # Mistletoe - Justin Bieber
+
+songs_10 |>
+  filter(year == 2012) |>
+  arrange(desc(track_popularity)) # Can't Hold Us - Ft. Ray Dalton - Macklemore & Ryan Lewis
+
+songs_10 |>
+  filter(year == 2013) |>
+  arrange(desc(track_popularity)) # All of Me - John Legend
+
+songs_10 |>
+  filter(year == 2014) |>
+  arrange(desc(track_popularity)) # Photograph - Ed Sheeran, Dancin (Krono Remix) - Aaron Smith
+
+songs_10 |>
+  filter(year == 2015) |>
+  arrange(desc(track_popularity)) # The Less I Know The Better - Tame Impala
+
+songs_10 |>
+  filter(year == 2016) |>
+  arrange(desc(track_popularity)) # goosebumps - Travis Scott
+
+songs_10 |>
+  filter(year == 2017) |>
+  arrange(desc(track_popularity)) # Believer - Imagine Dragons
+
+songs_10 |>
+  filter(year == 2018) |>
+  arrange(desc(track_popularity)) # Falling - Trevor Daniel
+
+songs_10 |>
+  filter(year == 2019) |>
+  arrange(desc(track_popularity)) # Dance Monkey - Tones and I 
+```
+
+Comparing top songs from 2010s with Billboard Magazine's Top 100 
+```{r}
+charts |>
+  filter(song == "Hey, Soul Sister") |>
+  arrange(desc(`weeks-on-board`)) # 54 , peak rank 3
+
+charts |>
+  filter(song == "Love The Way You Lie") |>
+  arrange(desc(`weeks-on-board`)) # 29, peak rank 1
+
+charts |>
+  filter(song == "Mistletoe") |>
+  arrange(desc(`weeks-on-board`)) # 10, peak rank 11
+
+charts |>
+  filter(song == "Can't Hold Us") |>
+  arrange(desc(`weeks-on-board`)) # 39, peak rank 1
+
+charts |>
+  filter(song == "All Of Me") |>
+  arrange(desc(`weeks-on-board`)) # 59, peak rank 1
+
+charts |>
+  filter(song == "Photograph" & artist == "Ed Sheeran") |>
+  arrange(desc(`weeks-on-board`)) #30, peak rank 10
+
+# Dancing not in dataset
+# The Less I know the better not in dataset
+# goosebumps not in dataset
+
+charts |>
+  filter(song == "Believer") |>
+  arrange(desc(`weeks-on-board`)) # 52, peak rank 4
+
+charts |>
+  filter(song == "Falling" & artist == "Trevor Daniel") |>
+  arrange(desc(`weeks-on-board`)) |> # 38, peak rank 17
+  arrange(`peak-rank`)
+
+charts |>
+  filter(song == "Dance Monkey") |>
+  arrange(desc(`weeks-on-board`)) # 36, peak rank 4
+```
